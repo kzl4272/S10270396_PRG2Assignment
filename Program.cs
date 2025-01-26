@@ -74,12 +74,9 @@ void LoadingAirlines()
             foreach (Flight flight in flightsDictionary.Values)
             {
                 flights[flight.FlightNumber] = flight;
-                Console.WriteLine(flight.FlightNumber, flight.Destination);
+                
             }
-            foreach (Flight flightA in flights.Values)
-            {
-                Console.WriteLine(flightA.FlightNumber, flightA.Destination);
-            }
+            
         }
     }
 }
