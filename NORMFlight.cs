@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Schema;
 
 namespace PRG_ASSG
 {
@@ -15,9 +16,14 @@ namespace PRG_ASSG
 
         public override double CalculateFees()
         {
-            
+            double total = 0;
+            return total;
         }
 
+        public override string ToString()
+        {
+            return base.ToString(); 
+        }
 
     }
 }
