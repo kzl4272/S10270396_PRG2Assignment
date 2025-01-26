@@ -50,7 +50,7 @@ void LoadFlights()
     }
     catch (Exception ex)
     {
-        Console.WriteLine("Error reading this file: " + ex.Message);
+        Console.WriteLine("Error reading this file : " + ex.Message);
     }
 }
 
