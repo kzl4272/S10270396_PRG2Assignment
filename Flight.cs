@@ -3,6 +3,8 @@
 // Student Name : Jayden Koh Kai Xuan
 // Partner Name : Kua Zi Liang
 //==========================================================
+using System.Xml.Schema;
+
 namespace PRG_ASSG
 {
     internal class Flight
@@ -58,21 +60,19 @@ namespace PRG_ASSG
             Status = status;
         }
 
-        public double CalculateFees()
+        public virtual double CalculateFees()
         {
-            return 0;
+            double total = 0;
+            total += 300;
+            return total;
         }
 
 
 
         public override string ToString()
         {
-            return base.ToString();
+            return $"{FlightNumber} {Origin} {Destination} {ExpectedTime:dd/MM/yyyy hh:mm tt}";
         }
-
-
-
-
 
 
     }
