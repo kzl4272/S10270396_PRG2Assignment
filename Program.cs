@@ -60,7 +60,7 @@ LoadFlights();
 /* FEATURE 1 (ZI LIANG) */
 
 List<Airline> airlinesList = new List<Airline>();
-void LoadingAirlines()
+void LoadAirlines()
 {
     using (StreamReader airlinesFile = new StreamReader("airlines.csv"))
     {
@@ -80,7 +80,26 @@ void LoadingAirlines()
         }
     }
 }
-LoadingAirlines();
+
+
+Dictionary<string, BoardingGate> boardingGateDictionary = new Dictionary<string, BoardingGate>();
+void LoadBoardingGates()
+{
+    using (StreamReader boardingGatesFile = new StreamReader("boardinggates.csv"))
+    {
+        string? boardingGate = boardingGatesFile.ReadLine();
+        while ((boardingGate = boardingGatesFile.ReadLine()) != null)
+        {
+            string[] boardingGateItem = boardingGate.Split(",");
+            string gateName = boardingGateItem[0];
+            bool supportCFFT = Convert.ToBoolean(boardingGateItem[1]);
+            bool supportDDJB = Convert.ToBoolean(boardingGateItem[2]);
+            bool supportLWTT = Convert.ToBoolean(boardingGateItem[3]);
+            BoardingGate withoutFlight = new BoardingGate(gateName, supportCFFT, supportDDJB, supportLWTT);
+            boardingGateDictionary[gateName] = withoutFlight;
+        }
+    }
+}
 
 /* FEATURE 3 (Jayden) */
 

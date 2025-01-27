@@ -20,6 +20,13 @@ namespace PRG_ASSG
         public bool SupportsLWTT { get; set; }
         public Flight Flight { get; set; }
 
+        public BoardingGate(string gateName, bool supportsCFFT, bool supportsDDJB, bool supportsLWTT)
+        {
+            GateName = gateName;
+            SupportsCFFT = supportsCFFT;
+            SupportsDDJB = supportsDDJB;
+            SupportsLWTT = supportsLWTT;
+        }
         public BoardingGate(string gateName, bool supportsCFFT, bool supportsDDJB, bool supportsLWTT, Flight flight)
         {
             GateName = gateName;
