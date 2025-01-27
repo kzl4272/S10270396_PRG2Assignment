@@ -82,6 +82,20 @@ void LoadingAirlines()
 }
 LoadingAirlines();
 
-/* FEATURE 3 (ZI LIANG) */
+/* FEATURE 3 (Jayden) */
+
+
+void listflights()
+{
+    Console.WriteLine("=============================================");
+    Console.WriteLine("List of Flights for Changi Airport Terminal 5");
+    Console.WriteLine("=============================================");
+    foreach (var flight in flightsDictionary.Values)
+    {
+        Console.WriteLine(flight);
+    }
+}
+
+listflights();
 
 
