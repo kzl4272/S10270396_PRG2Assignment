@@ -1,6 +1,7 @@
 ﻿// See https://aka.ms/new-console-template for more information
 using PRG_ASSG;
 using System.Reflection.PortableExecutable;
+using System.Xml.Linq;
 
 
 
@@ -80,7 +81,7 @@ void LoadAirlines()
         }
     }
 }
-
+LoadAirlines();
 
 Dictionary<string, BoardingGate> boardingGateDictionary = new Dictionary<string, BoardingGate>();
 void LoadBoardingGates()
@@ -109,6 +110,7 @@ void listflights()
     Console.WriteLine("=============================================");
     Console.WriteLine("List of Flights for Changi Airport Terminal 5");
     Console.WriteLine("=============================================");
+    Console.WriteLine("{0,-15}{1,-15}{2,-15}{3,-15}{4,-10}", "Flight Number", "Airline Name", "Origin", "Destination", "Expected");
     foreach (var flight in flightsDictionary.Values)
     {
         Console.WriteLine(flight);
