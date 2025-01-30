@@ -59,8 +59,7 @@ void LoadFlights()
 LoadFlights();
 
 /* FEATURE 1 (ZI LIANG) */
-
-List<Airline> airlinesList = new List<Airline>();
+Dictionary<string, Airline> airlineDictionary = new Dictionary<string, Airline>();
 void LoadAirlines()
 {
     using (StreamReader airlinesFile = new StreamReader("airlines.csv"))
@@ -68,20 +67,18 @@ void LoadAirlines()
         string? airlines = airlinesFile.ReadLine();
         while ((airlines = airlinesFile.ReadLine()) != null)
         {
-            Dictionary<string, Flight> flights = new Dictionary<string, Flight>();
             string[] airlinesItem = airlines.Split(',');
             string name = airlinesItem[0];
             string code = airlinesItem[1];
-            foreach (Flight flight in flightsDictionary.Values)
-            {
-                flights[flight.FlightNumber] = flight;
-                
-            }
-            
+            Airline airline = new Airline(name, code);
+            airlineDictionary[code] = airline;
         }
     }
 }
 LoadAirlines();
+
+
+
 
 Dictionary<string, BoardingGate> boardingGateDictionary = new Dictionary<string, BoardingGate>();
 void LoadBoardingGates()
@@ -110,10 +107,16 @@ void listflights()
     Console.WriteLine("=============================================");
     Console.WriteLine("List of Flights for Changi Airport Terminal 5");
     Console.WriteLine("=============================================");
-    Console.WriteLine("{0,-15}{1,-15}{2,-15}{3,-15}{4,-10}", "Flight Number", "Airline Name", "Origin", "Destination", "Expected");
-    foreach (var flight in flightsDictionary.Values)
+    Console.WriteLine("{0,-15}{1,-19}{2,-20}{3,-18}{4,-24}", "Flight Number", "Airline Name", "Origin", "Destination", "Expected Departure/Arrival Time");
+    foreach (Flight flight in flightsDictionary.Values)
     {
-        Console.WriteLine(flight);
+        foreach (Airline airline in airlineDictionary.Values)
+        {
+            if (flight.FlightNumber.Contains(airline.Code))
+            {
+                Console.WriteLine($"{flight.FlightNumber,-15}{airline.Name,-19}{flight.Origin,-20}{flight.Destination,-18}{flight.ExpectedTime,-24}");
+            }
+        }
     }
 }
 
