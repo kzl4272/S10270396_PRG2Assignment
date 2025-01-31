@@ -1,5 +1,6 @@
 ﻿// See https://aka.ms/new-console-template for more information
 using PRG_ASSG;
+using System.Globalization;
 using System.Reflection.PortableExecutable;
 using System.Security.Cryptography;
 using System.Xml.Linq;
@@ -255,12 +256,104 @@ void AssignBoardingGate()
 
     Console.WriteLine($"Flight {flight.FlightNumber} has been assigned to Boarding Gate {bgname}!");
 }
-AssignBoardingGate();
+//AssignBoardingGate();
 
-listBoardingGates();
+//listBoardingGates();
 
 /* FEATURE 7 (Zi Liang) */
-/*
+
+
+void DisplayAirlineFlights()
+{
+    Console.WriteLine("=============================================");
+    Console.WriteLine("List of Airlines for Changi Airport Terminal 5");
+    Console.WriteLine("=============================================");
+    Console.WriteLine($"{"Airline Name",-20}{"Airline Code"}");
+
+    foreach (var airline in airlineDictionary.Values)
+    {
+        Console.WriteLine($"{airline.Code,-20}{airline.Name}");
+    }
+
+    Console.WriteLine("\nEnter Airline Code: ");
+    string airlineCode = Console.ReadLine().ToUpper();
+
+    Airline selectedAirline = airlineDictionary[airlineCode];
+
+    foreach (Flight flight in flightsDictionary.Values)
+    {
+        if (flight.FlightNumber.Contains(airlineCode))
+        {
+            selectedAirline.AddFlight(flight);
+        }
+    }
+
+    
+
+    Console.WriteLine("\n=============================================");
+    Console.WriteLine($"List of Flights for {selectedAirline.Name}");
+    Console.WriteLine("=============================================");
+    Console.WriteLine($"{"Flight Number",-20}{"Origin",-20}{"Destination",-20}");
+
+    foreach (var flight in selectedAirline.Flights.Values)
+    {
+        Console.WriteLine($"{flight.FlightNumber,-20}{flight.Origin,-20}{flight.Destination,-20}");
+    }
+
+    Console.WriteLine("\nEnter Flight Number: ");
+    string selectflightNumber = Console.ReadLine().ToUpper();
+    Flight selectedFlight = flightsDictionary[selectflightNumber];
+    Console.WriteLine("\n=============================================");
+    Console.WriteLine("Flight Details");
+    Console.WriteLine("=============================================");
+    Console.WriteLine($"{"Flight Number",-20}: {selectedFlight.FlightNumber}");
+    string selectedairlinename = "";
+    foreach (Airline airline in airlineDictionary.Values)
+    {
+        if (selectedFlight.FlightNumber.Contains(airline.Code))
+        {
+            selectedairlinename = airline.Name;
+        }
+    }
+
+    Console.WriteLine($"{"Airline Name",-20}: {selectedairlinename}");
+    Console.WriteLine($"{"Origin",-20}: {selectedFlight.Origin}");
+    Console.WriteLine($"{"Destination",-20}: {selectedFlight.Destination}");
+    Console.WriteLine($"{"Expected Time",-20}: {selectedFlight.ExpectedTime:dd/MM/yyyy hh:mm tt}");
+
+    if (flightsSRC.ContainsKey(selectflightNumber))
+    {
+        Console.WriteLine($"{"Special Request Code",-20}: {flightsSRC[selectflightNumber]}");
+    }
+    else
+    {
+        Console.WriteLine($"{"Special Request Code",-20}: None");
+    }
+
+    string selectedGate = "";
+
+    foreach (BoardingGate gate in boardingGateDictionary.Values)
+    {
+        if (gate.Flight != null)
+        {
+            selectedGate = gate.GateName;
+        }
+
+        else
+        {
+            selectedGate = "None";
+        }
+    }
+
+    Console.WriteLine($"{"Boarding Gate",-20}: {selectedGate}");
+
+}
+DisplayAirlineFlights();
+
+
+/* FEATURE 8 (Zi Liang) */
+
+
 void DisplayAirlineFlights()
 {
     // List all airlines
@@ -330,7 +423,7 @@ void DisplayAirlineFlights()
     Console.WriteLine($"{"Status:",-25} {selectedFlight.Status}");
 
     // Special Request Code (from Flight class property)
-    Console.WriteLine($"{"Special Request Code:",-25} {selectedFlight.flightsSRC ?? "None"}");
+    Console.WriteLine($"{"Special Request Code:",-25} {selectedFlight.SpecialRequestCode ?? "None"}");
 
     // Boarding Gate (search via boarding gates)
     var assignedGate = boardingGateDictionary.Values
@@ -338,4 +431,6 @@ void DisplayAirlineFlights()
     Console.WriteLine($"{"Boarding Gate:",-25} {assignedGate?.GateName ?? "Not Assigned"}");
 }
 DisplayAirlineFlights();
-*/
+
+
+
