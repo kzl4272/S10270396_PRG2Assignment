@@ -142,7 +142,7 @@ void listBoardingGates()
     foreach (BoardingGate gate in boardingGateDictionary.Values)
     {
         //check for any assigned gate
-        string assignedFlight = "None";
+        string assignedFlight = "None"; 
 
         foreach (var flight in flightsDictionary.Values)
         {
@@ -249,4 +249,4 @@ void AssignBoardingGate()
 
     Console.WriteLine($"Flight {flight.FlightNumber} has been assigned to Boarding Gate {bgname}!");
 }
-//AssignBoardingGate();
+AssignBoardingGate();
