@@ -1,6 +1,7 @@
 ﻿// See https://aka.ms/new-console-template for more information
 using PRG_ASSG;
 using System.Reflection.PortableExecutable;
+using System.Security.Cryptography;
 using System.Xml.Linq;
 
 
@@ -130,6 +131,38 @@ void listflights()
 //listflights();
 
 /* FEATURE 4 (Zi Liang) */
+
+void listBoardingGates()
+{
+    Console.WriteLine("=============================================");
+    Console.WriteLine("List of Boarding Gates for Changi Airport Terminal 5");
+    Console.WriteLine("=============================================");
+    Console.WriteLine("{0,-15}{1,-10}{2,-10}{3,-10}{4,-15}", "Gate Name", "DDJB", "CFFT", "LWTT", "Assigned Flight");
+
+    foreach (BoardingGate gate in boardingGateDictionary.Values)
+    {
+        string assignedFlight = "None"; 
+
+        foreach (var flight in flightsDictionary.Values)
+        {
+            if (flight.FlightNumber == gate.GateName)
+            {
+                assignedFlight = flight.FlightNumber;
+                break;
+            }
+        }
+
+        Console.WriteLine(
+            $"{gate.GateName,-15}" +
+            $"{gate.SupportsDDJB,-10}" +  
+            $"{gate.SupportsCFFT,-10}" +  
+            $"{gate.SupportsLWTT,-10}" +  
+            $"{assignedFlight,-15}"
+        );
+    }
+}
+listBoardingGates();
+
 
 
 
