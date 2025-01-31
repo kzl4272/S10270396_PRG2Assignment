@@ -208,7 +208,12 @@ void AssignBoardingGate()
     Console.WriteLine($"Origin: {flight.Origin}");
     Console.WriteLine($"Destination: {flight.Destination}");
     Console.WriteLine($"Expected Time: {flight.ExpectedTime:dd/M/yyyy h:mm:ss tt}");
-    Console.WriteLine($"Special Request Code: {(flightsSRC.ContainsKey(flightnum) ? flightsSRC[flightnum] : "None")}");
+    if (!flightsSRC.TryGetValue(flightnum, out string src) || string.IsNullOrWhiteSpace(src))
+    {
+        src = "None";
+    }
+    Console.WriteLine($"Special Request Code: {src}");
+
 
     // displays boarding gate details
     Console.WriteLine($"Boarding Gate Name: {bgname}");
@@ -251,9 +256,10 @@ void AssignBoardingGate()
 }
 AssignBoardingGate();
 
+listBoardingGates();
 
 /* FEATURE 7 (Zi Liang) */
-
+/*
 void DisplayAirlineFlights()
 {
     // List all airlines
@@ -331,3 +337,4 @@ void DisplayAirlineFlights()
     Console.WriteLine($"{"Boarding Gate:",-25} {assignedGate?.GateName ?? "Not Assigned"}");
 }
 DisplayAirlineFlights();
+*/

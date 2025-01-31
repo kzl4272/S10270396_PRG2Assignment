@@ -26,14 +26,7 @@ namespace PRG_ASSG
             SupportsCFFT = supportsCFFT;
             SupportsDDJB = supportsDDJB;
             SupportsLWTT = supportsLWTT;
-        }
-        public BoardingGate(string gateName, bool supportsCFFT, bool supportsDDJB, bool supportsLWTT, Flight flight)
-        {
-            GateName = gateName;
-            SupportsCFFT = supportsCFFT;
-            SupportsDDJB = supportsDDJB;
-            SupportsLWTT = supportsLWTT;
-            Flight = flight;
+            Flight = null;
         }
 
         public double CalculateFees()
