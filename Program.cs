@@ -82,7 +82,7 @@ void LoadAirlines()
         }
     }
 }
-LoadAirlines();
+//LoadAirlines();
 
 
 
@@ -250,3 +250,84 @@ void AssignBoardingGate()
     Console.WriteLine($"Flight {flight.FlightNumber} has been assigned to Boarding Gate {bgname}!");
 }
 AssignBoardingGate();
+
+
+/* FEATURE 7 (Zi Liang) */
+
+void DisplayAirlineFlights()
+{
+    // List all airlines
+    Console.WriteLine("\n=============================================");
+    Console.WriteLine("List of Airlines for Changi Airport Terminal 5");
+    Console.WriteLine("=============================================");
+    Console.WriteLine("{0,-15}{1,-25}", "Airline Code", "Airline Name");
+    foreach (var airline in airlineDictionary.Values)
+    {
+        Console.WriteLine($"{airline.Code,-15}{airline.Name,-25}");
+    }
+
+    // Get airline code input
+    Console.Write("\nEnter Airline Code: ");
+    string airlineCode = Console.ReadLine()?.Trim().ToUpper();
+
+    // Validate airline
+    if (!airlineDictionary.TryGetValue(airlineCode, out Airline selectedAirline))
+    {
+        Console.WriteLine("Invalid Airline Code!");
+        return;
+    }
+
+    // Get flights for the selected airline
+    var airlineFlights = flightsDictionary.Values;
+
+    // Display flights (simplified list)
+    Console.WriteLine("\n=============================================");
+    Console.WriteLine($"List of Flights for {selectedAirline.Name}");
+    Console.WriteLine("=============================================");
+    Console.WriteLine("{0,-15}{1,-25}{2,-20}{3,-25}",
+        "Flight Number", "Origin", "Destination", "Departure/Arrival Time");
+
+    foreach (var flight in airlineFlights)
+    {
+        Console.WriteLine(
+            $"{flight.FlightNumber,-15}" +
+            $"{flight.Origin,-25}" +
+            $"{flight.Destination,-20}" +
+            $"{flight.ExpectedTime:dd/MM/yyyy hh:mm tt}"
+        );
+    }
+
+    // Get flight number input
+    Console.Write("\nEnter Flight Number: ");
+    string flightNumber = Console.ReadLine()?.Trim().ToUpper();
+
+    // Find the flight
+    var selectedFlight = airlineFlights
+                        .FirstOrDefault(f => f.FlightNumber.Equals(flightNumber, StringComparison.OrdinalIgnoreCase));
+
+    if (selectedFlight == null)
+    {
+        Console.WriteLine("Invalid Flight Number!");
+        return;
+    }
+
+    // Display full flight details
+    Console.WriteLine("\n=============================================");
+    Console.WriteLine("Flight Details");
+    Console.WriteLine("=============================================");
+    Console.WriteLine($"{"Flight Number:",-25} {selectedFlight.FlightNumber}");
+    Console.WriteLine($"{"Airline:",-25} {selectedAirline.Name}");
+    Console.WriteLine($"{"Origin:",-25} {selectedFlight.Origin}");
+    Console.WriteLine($"{"Destination:",-25} {selectedFlight.Destination}");
+    Console.WriteLine($"{"Departure/Arrival Time:",-25} {selectedFlight.ExpectedTime:dd/MM/yyyy hh:mm tt}");
+    Console.WriteLine($"{"Status:",-25} {selectedFlight.Status}");
+
+    // Special Request Code (from Flight class property)
+    Console.WriteLine($"{"Special Request Code:",-25} {selectedFlight.flightsSRC ?? "None"}");
+
+    // Boarding Gate (search via boarding gates)
+    var assignedGate = boardingGateDictionary.Values
+        .FirstOrDefault(g => g.Flight?.FlightNumber == selectedFlight.FlightNumber);
+    Console.WriteLine($"{"Boarding Gate:",-25} {assignedGate?.GateName ?? "Not Assigned"}");
+}
+DisplayAirlineFlights();
