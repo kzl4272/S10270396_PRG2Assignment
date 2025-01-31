@@ -169,6 +169,7 @@ listBoardingGates();
 
 /* FEATURE 5 (Jayden) */
 
+
 void AssignBoardingGate()
 {
     Console.WriteLine("=============================================");
@@ -197,7 +198,11 @@ void AssignBoardingGate()
 
     Flight flight = flightsDictionary[flightnum];
     BoardingGate gate = boardingGateDictionary[bgname];
-
+    if (gate.Flight != null)
+    {
+        Console.WriteLine($"Error: Boarding Gate {bgname} is already assigned to Flight {gate.Flight.FlightNumber}.");
+        return;
+    }
     // displays flight details
     Console.WriteLine($"Flight Number: {flight.FlightNumber}");
     Console.WriteLine($"Origin: {flight.Origin}");
@@ -212,7 +217,7 @@ void AssignBoardingGate()
     Console.WriteLine($"Supports LWTT: {gate.SupportsLWTT}");
 
     // Assign the boarding gate
-    //flight.BoardingGate = gate;
+    gate.Flight = flight;
 
     Console.Write("Would you like to update the status of the flight? (Y/N): ");
     string choice = Console.ReadLine()?.Trim().ToUpper();
