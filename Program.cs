@@ -259,6 +259,54 @@ void AssignBoardingGate()
 //AssignBoardingGate();
 
 //listBoardingGates();
+/* FEATURE 6 (Jayden) */
+void CreateFlight()
+{
+    while (true)
+    {
+        Console.Write("Enter Flight Number: ");
+        string flightnum = Console.ReadLine()?.ToUpper();
+        Console.Write("Enter Origin: ");
+        string origin = Console.ReadLine();
+        Console.Write("Enter Destination: ");
+        string destination = Console.ReadLine();
+        DateTime departureArrivalTime;
+        while (true)
+        {
+            Console.Write("Enter Expected Departure/Arrival Time (dd/mm/yyyy hh:mm): ");
+            string dateTimeInput = Console.ReadLine();
+
+            if (DateTime.TryParseExact(dateTimeInput, "d/M/yyyy HH:mm", null, System.Globalization.DateTimeStyles.None, out departureArrivalTime))
+                break;
+            else
+                Console.WriteLine("Invalid date format. Please enter in dd/mm/yyyy hh:mm format: ");
+        }
+        Console.Write("Enter Special Request Code (CFFT/DDJB/LWTT/None): ");
+        string specialRequestCode = Console.ReadLine();
+        // checks the src
+        string[] src = { "CFFT", "DDJB", "LWTT", "None" };
+        while (!src.Contains(specialRequestCode))
+        {
+            Console.Write("Invalid SRC. Enter one of (CFFT/DDJB/LWTT/None): ");
+            specialRequestCode = Console.ReadLine();
+        }
+        Flight newFlight = new Flight(flightnum, origin, destination, departureArrivalTime, specialRequestCode);
+
+        // adds flight to the flights dictionary 
+        flightsDictionary[flightnum] = newFlight;
+
+        Console.WriteLine($"Flight {flightnum} has been added!");
+
+        Console.WriteLine("Would you like to add another flight? (Y/N)");
+        string response = Console.ReadLine().Trim().ToUpper();
+
+        if (response == "N")
+            break;
+    }
+
+}
+CreateFlight();
+listflights();
 
 /* FEATURE 7 (Zi Liang) */
 
@@ -534,4 +582,6 @@ void ModifyFlightDetails()
 }
 ModifyFlightDetails();
 
+
+/* FEATURE 9 (Jayden) */
 

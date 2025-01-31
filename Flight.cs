@@ -7,7 +7,7 @@ using System.Xml.Schema;
 
 namespace PRG_ASSG
 {
-    internal class Flight
+    internal class Flight : IComparable<Flight>
     {
         private string flightNumber;
 
@@ -67,7 +67,11 @@ namespace PRG_ASSG
             return total;
         }
 
-
+        public int CompareTo(Flight other)
+        {
+            if (other == null) return 1;
+            return ExpectedTime.CompareTo(other.ExpectedTime);
+        }
 
         public override string ToString()
         {
