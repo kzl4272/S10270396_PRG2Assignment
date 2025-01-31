@@ -161,7 +161,7 @@ void listBoardingGates()
         );
     }
 }
-listBoardingGates();
+//listBoardingGates();
 
 
 
@@ -243,4 +243,4 @@ void AssignBoardingGate()
 
     Console.WriteLine($"Flight {flight.FlightNumber} has been assigned to Boarding Gate {bgname}!");
 }
-AssignBoardingGate();
+//AssignBoardingGate();
