@@ -44,7 +44,7 @@ void LoadFlights()
                 string checkforsrc = values[4];
                 string src = "";
                 if (checkforsrc != "")
-                { src = checkforsrc;  }    
+                { src = checkforsrc; }
                 string status = "on time";
 
                 // Creates a Flight object using the data
@@ -52,7 +52,7 @@ void LoadFlights()
 
                 // Adds the flight to the dictionary with FlightNumber as the key
                 flightsDictionary[flight.FlightNumber] = flight;
-                flightsSRC[flightNumber] = src;    
+                flightsSRC[flightNumber] = src;
             }
         }
     }
@@ -97,8 +97,8 @@ void LoadBoardingGates()
         {
             string[] boardingGateItem = boardingGate.Split(",");
             string gateName = boardingGateItem[0];
-            bool supportCFFT = Convert.ToBoolean(boardingGateItem[1]);
-            bool supportDDJB = Convert.ToBoolean(boardingGateItem[2]);
+            bool supportDDJB = Convert.ToBoolean(boardingGateItem[1]);
+            bool supportCFFT = Convert.ToBoolean(boardingGateItem[2]);
             bool supportLWTT = Convert.ToBoolean(boardingGateItem[3]);
             BoardingGate withoutFlight = new BoardingGate(gateName, supportCFFT, supportDDJB, supportLWTT);
             boardingGateDictionary[gateName] = withoutFlight;
@@ -107,7 +107,7 @@ void LoadBoardingGates()
 }
 LoadBoardingGates();
 
-/* FEATURE 3 (Jayden) */
+/* FEATURE 3 (Jayden) */
 
 
 void listflights()
@@ -130,7 +130,7 @@ void listflights()
 
 //listflights();
 
-/* FEATURE 4 (Zi Liang) */
+/* FEATURE 4 (Zi Liang) */
 
 void listBoardingGates()
 {
@@ -141,7 +141,8 @@ void listBoardingGates()
 
     foreach (BoardingGate gate in boardingGateDictionary.Values)
     {
-        string assignedFlight = "None"; 
+        //check for any assigned gate
+        string assignedFlight = "None";
 
         foreach (var flight in flightsDictionary.Values)
         {
@@ -154,19 +155,20 @@ void listBoardingGates()
 
         Console.WriteLine(
             $"{gate.GateName,-15}" +
-            $"{gate.SupportsDDJB,-10}" +  
-            $"{gate.SupportsCFFT,-10}" +  
-            $"{gate.SupportsLWTT,-10}" +  
+            $"{gate.SupportsDDJB,-10}" +
+            $"{gate.SupportsCFFT,-10}" +
+            $"{gate.SupportsLWTT,-10}" +
             $"{assignedFlight,-15}"
         );
     }
 }
-//listBoardingGates();
+listBoardingGates();
 
 
 
 
-/* FEATURE 5 (Jayden) */
+/* FEATURE 5 (Jayden) */
+
 
 void AssignBoardingGate()
 {
@@ -196,22 +198,26 @@ void AssignBoardingGate()
 
     Flight flight = flightsDictionary[flightnum];
     BoardingGate gate = boardingGateDictionary[bgname];
-
-    // Display flight details
+    if (gate.Flight != null)
+    {
+        Console.WriteLine($"Error: Boarding Gate {bgname} is already assigned to Flight {gate.Flight.FlightNumber}.");
+        return;
+    }
+    // displays flight details
     Console.WriteLine($"Flight Number: {flight.FlightNumber}");
     Console.WriteLine($"Origin: {flight.Origin}");
     Console.WriteLine($"Destination: {flight.Destination}");
     Console.WriteLine($"Expected Time: {flight.ExpectedTime:dd/M/yyyy h:mm:ss tt}");
     Console.WriteLine($"Special Request Code: {(flightsSRC.ContainsKey(flightnum) ? flightsSRC[flightnum] : "None")}");
 
-    // Display boarding gate details
+    // displays boarding gate details
     Console.WriteLine($"Boarding Gate Name: {bgname}");
     Console.WriteLine($"Supports DDJB: {gate.SupportsDDJB}");
     Console.WriteLine($"Supports CFFT: {gate.SupportsCFFT}");
     Console.WriteLine($"Supports LWTT: {gate.SupportsLWTT}");
 
     // Assign the boarding gate
-    //flight.BoardingGate = gate;
+    gate.Flight = flight;
 
     Console.Write("Would you like to update the status of the flight? (Y/N): ");
     string choice = Console.ReadLine()?.Trim().ToUpper();
@@ -236,7 +242,7 @@ void AssignBoardingGate()
                 flight.Status = "On Time";
                 break;
             default:
-                Console.WriteLine("Invalid choice. Keeping previous status.");
+                Console.WriteLine("Invalid choice. Keeping original status.");
                 break;
         }
     }
