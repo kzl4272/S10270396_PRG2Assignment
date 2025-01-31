@@ -97,8 +97,8 @@ void LoadBoardingGates()
         {
             string[] boardingGateItem = boardingGate.Split(",");
             string gateName = boardingGateItem[0];
-            bool supportCFFT = Convert.ToBoolean(boardingGateItem[1]);
-            bool supportDDJB = Convert.ToBoolean(boardingGateItem[2]);
+            bool supportDDJB = Convert.ToBoolean(boardingGateItem[1]);
+            bool supportCFFT = Convert.ToBoolean(boardingGateItem[2]);
             bool supportLWTT = Convert.ToBoolean(boardingGateItem[3]);
             BoardingGate withoutFlight = new BoardingGate(gateName, supportCFFT, supportDDJB, supportLWTT);
             boardingGateDictionary[gateName] = withoutFlight;
@@ -141,6 +141,7 @@ void listBoardingGates()
 
     foreach (BoardingGate gate in boardingGateDictionary.Values)
     {
+        //check for any assigned gate
         string assignedFlight = "None"; 
 
         foreach (var flight in flightsDictionary.Values)
@@ -197,14 +198,14 @@ void AssignBoardingGate()
     Flight flight = flightsDictionary[flightnum];
     BoardingGate gate = boardingGateDictionary[bgname];
 
-    // Display flight details
+    // displays flight details
     Console.WriteLine($"Flight Number: {flight.FlightNumber}");
     Console.WriteLine($"Origin: {flight.Origin}");
     Console.WriteLine($"Destination: {flight.Destination}");
     Console.WriteLine($"Expected Time: {flight.ExpectedTime:dd/M/yyyy h:mm:ss tt}");
     Console.WriteLine($"Special Request Code: {(flightsSRC.ContainsKey(flightnum) ? flightsSRC[flightnum] : "None")}");
 
-    // Display boarding gate details
+    // displays boarding gate details
     Console.WriteLine($"Boarding Gate Name: {bgname}");
     Console.WriteLine($"Supports DDJB: {gate.SupportsDDJB}");
     Console.WriteLine($"Supports CFFT: {gate.SupportsCFFT}");
@@ -236,7 +237,7 @@ void AssignBoardingGate()
                 flight.Status = "On Time";
                 break;
             default:
-                Console.WriteLine("Invalid choice. Keeping previous status.");
+                Console.WriteLine("Invalid choice. Keeping original status.");
                 break;
         }
     }
