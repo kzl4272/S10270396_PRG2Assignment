@@ -21,7 +21,7 @@ void LoadFlights()
     {
         using (StreamReader reader = new StreamReader(path))
         {
-            // skip header
+            // skips header
             reader.ReadLine();
 
             // reads CSV file
@@ -37,7 +37,7 @@ void LoadFlights()
                     continue;
                 }
 
-                // Parse the data from the CSV file
+                // parses the data from the CSV file
                 string flightNumber = values[0];
                 string origin = values[1];
                 string destination = values[2];
@@ -46,12 +46,12 @@ void LoadFlights()
                 string src = "";
                 if (checkforsrc != "")
                 { src = checkforsrc; }
-                string status = "on time";
+                string status = "Scheduled";
 
-                // Creates a Flight object using the data
+                // creates a Flight object using the data
                 Flight flight = new Flight(flightNumber, origin, destination, expectedTime, status);
 
-                // Adds the flight to the dictionary with FlightNumber as the key
+                // adds the flight to the dictionary with FlightNumber as the key
                 flightsDictionary[flight.FlightNumber] = flight;
                 flightsSRC[flightNumber] = src;
             }
@@ -164,7 +164,7 @@ void listBoardingGates()
         );
     }
 }
-listBoardingGates();
+//listBoardingGates();
 
 
 
@@ -305,8 +305,8 @@ void CreateFlight()
     }
 
 }
-CreateFlight();
-listflights();
+//CreateFlight();
+//listflights();
 
 /* FEATURE 7 (Zi Liang) */
 
@@ -580,8 +580,62 @@ void ModifyFlightDetails()
         Console.WriteLine($"{"Boarding Gate:",-25} {boardingGateDictionary.Values.FirstOrDefault(g => g.Flight == selectedFlight)?.GateName ?? "Not Assigned"}");
     }
 }
-ModifyFlightDetails();
+//ModifyFlightDetails();
 
 
 /* FEATURE 9 (Jayden) */
 
+void DisplaySortedFlights()
+{
+    Console.WriteLine("=============================================");
+    Console.WriteLine("Flight Schedule for Changi Airport Terminal 5");
+    Console.WriteLine("=============================================");
+    Console.WriteLine("{0,-15}{1,-20}{2,-20}{3,-20}{4,-25}\n{5,-15}{6,-15}",
+        "Flight Number", "Airline Name", "Origin", "Destination", "Expected Departure/Arrival Time", "Status", "Boarding Gate");
+
+    // sorts the flights by ExpectedTime
+    var sortedFlights = flightsDictionary.Values.OrderBy(flight => flight.ExpectedTime).ToList();
+
+    foreach (Flight flight in sortedFlights)
+    {
+        // finds the airline name
+        string airlineName = "";
+        foreach (Airline airline in airlineDictionary.Values)
+        {
+            //matches flightnumber to code
+            if (flight.FlightNumber.Contains(airline.Code))
+            {
+                airlineName = airline.Name;
+                break;
+            }
+        }
+
+        // Find the boarding gate (if assigned)
+        string boardingGate = "Unassigned";
+        foreach (BoardingGate gate in boardingGateDictionary.Values)
+        {
+            if (gate.Flight != null && gate.Flight.FlightNumber == flight.FlightNumber)
+            {
+                boardingGate = gate.GateName;
+                break;
+            }
+        }
+
+        // Ensure date formatting is correct
+        string formattedDate = flight.ExpectedTime.ToString("dd/M/yyyy h:mm:ss tt");
+
+        // Ensure status is correctly displayed
+        string flightStatus = flight.Status ?? "Scheduled";
+
+        // displays the flight details
+        Console.WriteLine("{0,-15}{1,-20}{2,-20}{3,-20}{4,-25}\n{5,-15}{6,-15}",
+            flight.FlightNumber,
+            airlineName,
+            flight.Origin,
+            flight.Destination,
+            formattedDate,
+            flightStatus,
+            boardingGate);
+    }
+}
+DisplaySortedFlights();
