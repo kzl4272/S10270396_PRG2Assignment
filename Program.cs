@@ -651,6 +651,75 @@ void DisplaySortedFlights()
 }
 //DisplaySortedFlights();
 
+
+void BulkassignFlights()
+{
+    Queue<Flight> unassignedFlights = new Queue<Flight>();
+    List<BoardingGate> unassignedGates = new List<BoardingGate>();
+
+    foreach (var flight in flightsDictionary.Values)
+    {
+        if (!boardingGateDictionary.Values.Any(gate => gate.Flight?.FlightNumber == flight.FlightNumber))
+        {
+            unassignedFlights.Enqueue(flight);
+        }
+    }
+
+    foreach (BoardingGate gate in boardingGateDictionary.Values)
+    {
+        if (gate.Flight == null)
+        {
+            unassignedGates.Add(gate);
+        }
+    }
+    int unassignedflights = unassignedFlights.Count;
+    int unassignedgates = unassignedGates.Count;
+    Console.WriteLine($"\nTotal number of unassigned flights: {unassignedflights}");
+    Console.WriteLine($"Total number of unassigned boarding gates: {unassignedgates}");
+
+    int processedFlights = 0;
+    int processedGates = 0;
+
+    while (unassignedFlights.Count > 0 && unassignedGates.Count > 0)
+    {
+        Flight flight = unassignedFlights.Dequeue();
+        BoardingGate? selectedGate = null;
+
+        string specialRequestCode = flightsSRC[flight.FlightNumber];
+        if (specialRequestCode != "")
+        {
+            selectedGate = unassignedGates.FirstOrDefault(gate => (specialRequestCode == "DDJB" && gate.SupportsDDJB) || (specialRequestCode == "CFFT" && gate.SupportsCFFT) || (specialRequestCode == "LWTT" && gate.SupportsLWTT));
+        }
+
+        if (selectedGate == null)
+        {
+            selectedGate = unassignedGates.FirstOrDefault(gate => !gate.SupportsDDJB && !gate.SupportsCFFT && !gate.SupportsLWTT);
+        }
+
+        // Assign gate if one is found
+        if (selectedGate != null)
+        {
+            selectedGate.Flight = flight;
+            unassignedGates.Remove(selectedGate);
+            processedFlights++;
+            processedGates++;
+        }
+    }
+
+    Console.WriteLine($"\nTotal flights processed and assigned: {processedFlights}");
+    Console.WriteLine($"Total gates processed and assigned: {processedGates}");
+    Console.WriteLine();
+    int totalFlights = flightsDictionary.Count;
+    int totalGates = boardingGateDictionary.Count;
+    Console.WriteLine($"Percentage of flights assigned: {((double)processedFlights / unassignedflights) * 100:0.00}%");
+    Console.WriteLine($"Percentage of gates assigned: {((double)processedGates / unassignedgates) * 100:0.00}%");
+}
+
+
+
+
+
+
 //loading (Jayden)
 void LoadAll()
 {
@@ -680,6 +749,7 @@ while (true)
     Console.WriteLine("5. Display Airline Flights");
     Console.WriteLine("6. Modify Flight Details");
     Console.WriteLine("7. Display Flight Schedule");
+    Console.WriteLine("8. Bulk Assign");
     Console.WriteLine("0. Exit");
     Console.Write("Please select your option: ");
 
@@ -715,6 +785,10 @@ while (true)
             DisplaySortedFlights();
             break;
 
+        case "8":
+            BulkassignFlights();
+            break;
+
         case "0":
             Console.WriteLine("Goodbye!");
             return; // exits loop and ends the program
@@ -725,4 +799,3 @@ while (true)
     }
 
 }
-    
