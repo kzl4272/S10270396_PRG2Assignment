@@ -447,7 +447,7 @@ void ModifyFlightDetails()
     }
 
     // 5. Get flight number input
-    Console.Write("\nEnter Flight Number: ");
+    Console.Write("\nChoose an existing Flight to modify or delete: ");
     string flightNumber = Console.ReadLine()?.Trim().ToUpper();
 
     // Find flight
@@ -468,7 +468,7 @@ void ModifyFlightDetails()
     switch (action)
     {
         case "1": // Modify
-            Console.WriteLine("\n1. Modify Basic Information\n2. Modify Status\n3. Modify SRC\n4. Modify Boarding Gate");
+            Console.WriteLine("\n1. Modify Basic Information\n2. Modify Status\n3. Modify Special Request Code\n4. Modify Boarding Gate");
             Console.Write("Choose an option: ");
             string modifyChoice = Console.ReadLine();
 
@@ -479,7 +479,7 @@ void ModifyFlightDetails()
                     string newOrigin = Console.ReadLine();
                     Console.Write("Enter new Destination: ");
                     string newDestination = Console.ReadLine();
-                    Console.Write("Enter new Time (dd/MM/yyyy HH:mm): ");
+                    Console.Write("Enter new Expected Departure/Arrival Time (dd/mm/yyyy hh:mm): ");
 
                     if (DateTime.TryParseExact(Console.ReadLine(), "dd/MM/yyyy HH:mm",
                         CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime newTime))
@@ -655,3 +655,62 @@ void LoadAll()
 }
 LoadAll();
 
+while (true)
+{
+    Console.WriteLine("\n\n\n\n");
+    Console.WriteLine("=============================================");
+    Console.WriteLine("Welcome to Changi Airport Terminal 5");
+    Console.WriteLine("=============================================");
+    Console.WriteLine("1. List All Flights");
+    Console.WriteLine("2. List Boarding Gates");
+    Console.WriteLine("3. Assign a Boarding Gate to a Flight");
+    Console.WriteLine("4. Create Flight");
+    Console.WriteLine("5. Display Airline Flights");
+    Console.WriteLine("6. Modify Flight Details");
+    Console.WriteLine("7. Display Flight Schedule");
+    Console.WriteLine("0. Exit");
+    Console.Write("Please select your option: ");
+
+    string input = Console.ReadLine();
+
+    switch (input)
+    {
+        case "1":
+            listflights();
+            break;
+
+        case "2":
+            listBoardingGates();
+            break;
+
+        case "3":
+            AssignBoardingGate();
+            break;
+
+        case "4":
+            CreateFlight();
+            break;
+
+        case "5":
+            DisplayAirlineFlights();
+            break;
+
+        case "6":
+            ModifyFlightDetails();
+            break;
+
+        case "7":
+            DisplaySortedFlights();
+            break;
+
+        case "0":
+            Console.WriteLine("Goodbye!");
+            return; // exits loop and ends the program
+
+        default:
+            Console.WriteLine("\nInvalid option. Please try again.");
+            break;
+    }
+
+}
+    
