@@ -681,6 +681,8 @@ void DisplaySortedFlights()
 //DisplaySortedFlights();
 
 
+
+//Advanced feature A (Zi Liang)
 void BulkassignFlights()
 {
     Queue<Flight> unassignedFlights = new Queue<Flight>();
@@ -887,5 +889,3 @@ void LoadAll()
                 break;
         }
     }
-
-
