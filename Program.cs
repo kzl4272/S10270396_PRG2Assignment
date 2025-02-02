@@ -744,97 +744,148 @@ void BulkassignFlights()
     Console.WriteLine($"Percentage of gates assigned: {((double)processedGates / unassignedgates) * 100:0.00}%");
 }
 
-List<Flight> flights = new List<Flight>
-            {
-               //add flights
-
-            };
-
-foreach (var flight in flights)
+//Advanced feature B (Jayden)
+void TotalFees()
 {
-    Console.WriteLine(flight);
-    Console.WriteLine($"Fees: ${flight.CalculateFees()}");
-    Console.WriteLine();
-
-
-
-
-    //loading (Jayden)
-    void LoadAll()
-{
-    Console.WriteLine("Loading Airlines...");
-    LoadAirlines();
-    Console.WriteLine("8 Airlines Loaded!");
-    Console.WriteLine("Loading Boarding Gates...");
-    LoadBoardingGates();
-    Console.WriteLine("66 Boarding Gates Loaded!");
-    Console.WriteLine("Loading Flights...");
-    LoadFlights();
-    Console.WriteLine("30 Flights Loaded!");
-
-}
-LoadAll();
-
-while (true)
-{
-    Console.WriteLine("\n\n\n\n");
-    Console.WriteLine("=============================================");
-    Console.WriteLine("Welcome to Changi Airport Terminal 5");
-    Console.WriteLine("=============================================");
-    Console.WriteLine("1. List All Flights");
-    Console.WriteLine("2. List Boarding Gates");
-    Console.WriteLine("3. Assign a Boarding Gate to a Flight");
-    Console.WriteLine("4. Create Flight");
-    Console.WriteLine("5. Display Airline Flights");
-    Console.WriteLine("6. Modify Flight Details");
-    Console.WriteLine("7. Display Flight Schedule");
-    Console.WriteLine("8. Bulk Assign");
-    Console.WriteLine("0. Exit");
-    Console.Write("Please select your option: ");
-
-    string input = Console.ReadLine();
-
-    switch (input)
+    foreach (Airline airline in airlineDictionary.Values)
     {
-        case "1":
-            listflights();
-            break;
+        Console.WriteLine($"Airline: {airline.Name} ({airline.Code})"); // Display airline name and code
 
-        case "2":
-            listBoardingGates();
-            break;
+        double airlineSubTotal = 0;
+        double discounts = 0;
+        double discountedfee = airlineSubTotal;
+        foreach (Flight flight in flightsDictionary.Values)
+        {
+            // Assuming you want to calculate fees only for flights from this airline
+            if (flight.FlightNumber.Contains(airline.Code) ) // You can adjust this condition based on your logic
+            {
+                
+                double flightFee = flight.CalculateFees(); // Calculate the fee for the flight
+                if (flight.Origin == "Singapore (SIN)")
+                {
+                    flightFee += 800;
+                }
+                if (flight.Destination == "Singapore (SIN)")
+                {
+                    flightFee += 500;
+                }
+               
+                if (flight is CFFTFlight)
+                {
+                    flightFee += 200;
+                }
+                else if (flight is DDJBFlight)
+                {
+                    flightFee += 150;
+                }
+                else if (flight is LWTTFlight)
+                {
+                    flightFee += 100;
+                }
 
-        case "3":
-            AssignBoardingGate();
-            break;
+                Console.WriteLine($" - Flight {flight.FlightNumber}: Fee = ${flightFee}");
+                airlineSubTotal += flightFee;
+                discountedfee += flightFee;
+                if (airline.Flights.Count >= 3)
+                {
+                    discountedfee = flightFee -= 350; 
+                    discounts += 350;
+                }
 
-        case "4":
-            CreateFlight();
-            break;
+                
+        }
+        }
 
-        case "5":
-            DisplayAirlineFlights();
-            break;
+        Console.WriteLine($"Subtotal Fees for {airline.Name}: ${airlineSubTotal}");
+        Console.WriteLine($"Discounts: {discounts}");
+        Console.WriteLine($"Final Fee: {discountedfee}");
+    }
+}
 
-        case "6":
-            ModifyFlightDetails();
-            break;
 
-        case "7":
-            DisplaySortedFlights();
-            break;
 
-        case "8":
-            BulkassignFlights();
-            break;
 
-        case "0":
-            Console.WriteLine("Goodbye!");
-            return; // exits loop and ends the program
 
-        default:
-            Console.WriteLine("\nInvalid option. Please try again.");
-            break;
+//loading (Jayden)
+void LoadAll()
+        {
+            Console.WriteLine("Loading Airlines...");
+            LoadAirlines();
+            Console.WriteLine("8 Airlines Loaded!");
+            Console.WriteLine("Loading Boarding Gates...");
+            LoadBoardingGates();
+            Console.WriteLine("66 Boarding Gates Loaded!");
+            Console.WriteLine("Loading Flights...");
+            LoadFlights();
+            Console.WriteLine("30 Flights Loaded!");
+
+        }
+        LoadAll();
+
+    while (true)
+    {
+        Console.WriteLine("\n\n\n\n");
+        Console.WriteLine("=============================================");
+        Console.WriteLine("Welcome to Changi Airport Terminal 5");
+        Console.WriteLine("=============================================");
+        Console.WriteLine("1. List All Flights");
+        Console.WriteLine("2. List Boarding Gates");
+        Console.WriteLine("3. Assign a Boarding Gate to a Flight");
+        Console.WriteLine("4. Create Flight");
+        Console.WriteLine("5. Display Airline Flights");
+        Console.WriteLine("6. Modify Flight Details");
+        Console.WriteLine("7. Display Flight Schedule");
+        Console.WriteLine("8. Bulk Assign");
+        Console.WriteLine("9. Total Fees");
+        Console.WriteLine("0. Exit");
+        Console.Write("Please select your option: ");
+
+        string input = Console.ReadLine();
+
+        switch (input)
+        {
+            case "1":
+                listflights();
+                break;
+
+            case "2":
+                listBoardingGates();
+                break;
+
+            case "3":
+                AssignBoardingGate();
+                break;
+
+            case "4":
+                CreateFlight();
+                break;
+
+            case "5":
+                DisplayAirlineFlights();
+                break;
+
+            case "6":
+                ModifyFlightDetails();
+                break;
+
+            case "7":
+                DisplaySortedFlights();
+                break;
+
+            case "8":
+                BulkassignFlights();
+                break;
+            case "9":
+                TotalFees();
+                break;
+            case "0":
+                Console.WriteLine("Goodbye!");
+                return; // exits loop and ends the program
+
+            default:
+                Console.WriteLine("\nInvalid option. Please try again.");
+                break;
+        }
     }
 
-}
+
