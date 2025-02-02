@@ -10,7 +10,6 @@ using System.Xml.Linq;
 
 
 
-
 /* FEATURE 2 (JAYDEN) */
 Dictionary<string, Flight> flightsDictionary = new Dictionary<string, Flight>();
 Dictionary<string, string> flightsSRC = new Dictionary<string, string>();
@@ -64,7 +63,7 @@ void LoadFlights()
 }
 
 
-LoadFlights();
+//LoadFlights();
 
 /* FEATURE 1 (ZI LIANG) */
 Dictionary<string, Airline> airlineDictionary = new Dictionary<string, Airline>();
@@ -83,7 +82,7 @@ void LoadAirlines()
         }
     }
 }
-LoadAirlines();
+//LoadAirlines();
 
 
 
@@ -106,7 +105,7 @@ void LoadBoardingGates()
         }
     }
 }
-LoadBoardingGates();
+//LoadBoardingGates();
 
 /* FEATURE 3 (Jayden) */
 
@@ -638,4 +637,21 @@ void DisplaySortedFlights()
             boardingGate);
     }
 }
-DisplaySortedFlights();
+//DisplaySortedFlights();
+
+//loading (Jayden)
+void LoadAll()
+{
+    Console.WriteLine("Loading Airlines...");
+    LoadAirlines();
+    Console.WriteLine("8 Airlines Loaded!");
+    Console.WriteLine("Loading Boarding Gates...");
+    LoadBoardingGates();
+    Console.WriteLine("66 Boarding Gates Loaded!");
+    Console.WriteLine("Loading Flights...");
+    LoadFlights();
+    Console.WriteLine("30 Flights Loaded!");
+
+}
+LoadAll();
+
