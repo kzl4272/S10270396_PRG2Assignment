@@ -481,7 +481,7 @@ void ModifyFlightDetails()
                     string newDestination = Console.ReadLine();
                     Console.Write("Enter new Expected Departure/Arrival Time (dd/mm/yyyy hh:mm): ");
 
-                    if (DateTime.TryParseExact(Console.ReadLine(), "dd/MM/yyyy HH:mm",
+                    if (DateTime.TryParseExact(Console.ReadLine(), "d/M/yyyy H:mm",
                         CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime newTime))
                     {
                         selectedFlight.Origin = newOrigin;
