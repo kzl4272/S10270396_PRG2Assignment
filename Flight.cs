@@ -62,8 +62,11 @@ namespace PRG_ASSG
 
         public virtual double CalculateFees()
         {
-            double total = 0;
-            total += 300;
+            double total = 300; // Boarding gate base fee
+
+            if (Destination == "SIN") total += 500; // Arriving flight fee
+            if (Origin == "SIN") total += 800; // Departing flight fee
+
             return total;
         }
 

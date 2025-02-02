@@ -24,7 +24,12 @@ namespace PRG_ASSG
         public LWTTFlight(string flightNumber, string origin, string destination, DateTime expectedTime, string status, double requestFee)
         : base(flightNumber, origin, destination, expectedTime, status)
         {
-            RequestFee = requestFee;
+            RequestFee = 500;
+        }
+
+        public override double CalculateFees()
+        {
+            return base.CalculateFees() + RequestFee; // adds request fee
         }
 
         public override string ToString()

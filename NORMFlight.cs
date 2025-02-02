@@ -21,8 +21,9 @@ namespace PRG_ASSG
 
         public override double CalculateFees()
         {
-            double total = 0;
-            return total;
+
+            return base.CalculateFees() - 50; // normal flights $50 discount
+
         }
 
         public override string ToString()

@@ -744,13 +744,23 @@ void BulkassignFlights()
     Console.WriteLine($"Percentage of gates assigned: {((double)processedGates / unassignedgates) * 100:0.00}%");
 }
 
+List<Flight> flights = new List<Flight>
+            {
+               //add flights
+
+            };
+
+foreach (var flight in flights)
+{
+    Console.WriteLine(flight);
+    Console.WriteLine($"Fees: ${flight.CalculateFees()}");
+    Console.WriteLine();
 
 
 
 
-
-//loading (Jayden)
-void LoadAll()
+    //loading (Jayden)
+    void LoadAll()
 {
     Console.WriteLine("Loading Airlines...");
     LoadAirlines();
